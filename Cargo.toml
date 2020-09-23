@@ -6,6 +6,7 @@ edition = "2018"
 license = "MIT"
 license-file = "LICENSE.txt"
 readme = "README.md"
+repository = "https://github.com/Matzenxt/csv_utility"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
