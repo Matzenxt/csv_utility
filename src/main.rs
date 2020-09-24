@@ -1,6 +1,7 @@
 mod map;
 mod rm;
 mod stats;
+mod util;
 
 use seahorse::{App, Command, Context};
 use std::env;
