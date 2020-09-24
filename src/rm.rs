@@ -10,7 +10,6 @@ pub fn remove_empty_rows(c: &Context) {
 }
 
 pub fn remove_rows_with_threshold(c: &Context) {
-
     if c.args.len() != 3 {
         eprintln!("Please check your arguments");
         std::process::exit(0);
@@ -31,7 +30,7 @@ pub fn remove_rows_with_threshold(c: &Context) {
             file
         }
         Err(_) => {
-            eprintln!("Could not create output file: '{}'!", c.args.get(0).unwrap());
+            eprintln!("Could not create output file: '{}'!", c.args.get(1).unwrap());
             std::process::exit(0);
         }
     };
