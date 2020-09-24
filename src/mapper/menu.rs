@@ -32,6 +32,7 @@ pub fn main(c: &Context) {
                 std::process::exit(0);
             },
             2 => {
+                // TODO: Impl save functionality
                 term.clear_screen();
                 std::process::exit(0);
             },
@@ -47,6 +48,8 @@ fn map_view(term: &Term, theme: &ColorfulTheme) {
     loop {
         term.clear_screen();
 
+        // TODO: Create items from 'new header' file
+
         let next_menu = Select::with_theme(theme)
             .with_prompt("Map headers")
             .default(0)
@@ -58,7 +61,7 @@ fn map_view(term: &Term, theme: &ColorfulTheme) {
                 break
             },
             _ => {
-
+                // TODO: Go to next menu where user can select header item from 'source file' he wants to map to selected header item
             }
         }
     }
