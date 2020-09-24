@@ -2,6 +2,7 @@ use seahorse::Context;
 use console::{Term, Style};
 use dialoguer::theme::{ColorfulTheme, Theme};
 use dialoguer::Select;
+use crate::mapper::data::test;
 
 pub fn main(c: &Context) {
     let term = Term::stdout();
