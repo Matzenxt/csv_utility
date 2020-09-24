@@ -1,5 +1,6 @@
 mod map;
 mod rm;
+mod stats;
 
 use seahorse::{App, Command, Context};
 use std::env;
@@ -13,7 +14,8 @@ fn main() {
         .action(|c| println!("Hello, {:?}", c.args.get(0).unwrap()))
         .command(map_command())
         .command(rm_empty_rows_command())
-        .command(rm_rows_with_threshold_command());
+        .command(rm_rows_with_threshold_command())
+        .command(stats_show_command());
 
     app.run(args);
 }
@@ -37,4 +39,11 @@ fn rm_rows_with_threshold_command() -> Command {
         .alias("rrwt")
         .usage("Remove rows with less than 'x' entries [source file] [outputfile] [x]")
         .action(rm::remove_rows_with_threshold)
+}
+
+fn stats_show_command() -> Command {
+    Command::new("stats")
+        .alias("s")
+        .usage("Shows some stats about the content of the csv file [source file]")
+        .action(stats::show_stats)
 }
