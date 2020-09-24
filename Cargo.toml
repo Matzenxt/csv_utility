@@ -11,5 +11,17 @@ repository = "https://github.com/Matzenxt/csv_utility"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-csv = "1.1.3"
+# CLI framework
 seahorse = "1.0.0"
+
+# CSV
+csv = "1.1.3"
+
+# Necessary for dialoguer and indicatif
+console = "0.11.3"
+
+# Option picker / 'interface'
+dialoguer = "0.6.2"
+
+# Loading bars
+indicatif = "0.15.0"

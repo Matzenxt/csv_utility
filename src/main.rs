@@ -1,7 +1,7 @@
-mod map;
 mod rm;
 mod stats;
 mod util;
+mod mapper;
 
 use seahorse::{App, Command, Context};
 use std::env;
@@ -25,7 +25,7 @@ fn map_command() -> Command {
     Command::new("map")
         .alias("m")
         .usage("Maps entries from source file to header from header file and saves to output file [source file] [new header] [outputfile]")
-        .action(map::map_csv)
+        .action(mapper::menu::main)
 }
 
 fn rm_empty_rows_command() -> Command {
