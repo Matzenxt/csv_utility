@@ -5,6 +5,7 @@ use dialoguer::Select;
 use std::fs::File;
 use crate::util::{get_source_file, create_output_file};
 use csv::{Reader, Writer, ReaderBuilder, StringRecord};
+use std::{thread, time};
 
 pub fn main(c: &Context) {
     if c.args.len() != 3 {
@@ -46,7 +47,7 @@ pub fn main(c: &Context) {
 
         match next_menu {
             0 => {
-                map_view(&term, &theme, &dest_headers);
+                map_view(&term, &theme, &dest_headers, &source_headers);
             },
             1 => {
                 term.clear_screen();
@@ -65,7 +66,7 @@ pub fn main(c: &Context) {
     }
 }
 
-fn map_view(term: &Term, theme: &ColorfulTheme, header: &Vec<String>) {
+fn map_view(term: &Term, theme: &ColorfulTheme, header_dest: &Vec<String>, header_source: &Vec<String>) {
     loop {
         term.clear_screen();
 
@@ -73,7 +74,7 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header: &Vec<String>) {
             .with_prompt("Map headers")
             .default(0)
             .item("Back")
-            .items(header)
+            .items(header_dest)
             .interact()
             .unwrap();
 
@@ -82,7 +83,53 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header: &Vec<String>) {
                 break
             },
             _ => {
-                // TODO: Go to next menu where user can select header item from 'source file' he wants to map to selected header item
+                match item_selecter(&term, &theme, header_source) {
+                    Some(pos) => {
+                        match pos {
+                            1 => {
+                                println!("Set to empty");
+                            },
+                            _ => {
+                                // -2 because empty and back entry in item list
+                                let position_source = pos - 2;
+
+                                // -1 because back entry in item list
+                                let position_dest = next_menu - 1;
+
+                                println!("Map source header {} to dest header {}", header_source[position_source], header_dest[position_dest]);
+                            }
+                        }
+                    },
+                    None => {
+                        // Do nothing.
+                    }
+                };
+
+                thread::sleep(time::Duration::from_millis(8000));
+            }
+        }
+    }
+}
+
+fn item_selecter(term: &Term, theme: &ColorfulTheme, header_source: &Vec<String>) -> Option<usize> {
+    loop {
+        term.clear_screen();
+
+        let next_menu = Select::with_theme(theme)
+            .with_prompt("Map headers")
+            .default(0)
+            .item("Back")
+            .item("Empty")
+            .items(header_source)
+            .interact()
+            .unwrap();
+
+        return match next_menu {
+            0 => {
+                None
+            },
+            _ => {
+                Some(next_menu)
             }
         }
     }
