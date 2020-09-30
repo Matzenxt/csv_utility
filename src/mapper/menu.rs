@@ -96,7 +96,3 @@ fn get_headers_from_file(headers: &StringRecord) -> Vec<String> {
 
     temp_header
 }
-
-fn build_menu_items_from_header(headers: Vec<String>) {
-
-}
