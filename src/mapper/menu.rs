@@ -46,7 +46,7 @@ pub fn main(c: &Context) {
 
         match next_menu {
             0 => {
-                map_view(&term, &theme);
+                map_view(&term, &theme, &dest_headers);
             },
             1 => {
                 term.clear_screen();
@@ -65,17 +65,17 @@ pub fn main(c: &Context) {
     }
 }
 
-fn map_view(term: &Term, theme: &ColorfulTheme) {
+fn map_view(term: &Term, theme: &ColorfulTheme, header: &Vec<String>) {
     loop {
         term.clear_screen();
-
-        // TODO: Create items from 'new header' file
 
         let next_menu = Select::with_theme(theme)
             .with_prompt("Map headers")
             .default(0)
             .item("Back")
-            .interact().unwrap();
+            .items(header)
+            .interact()
+            .unwrap();
 
         match next_menu {
             0 => {
@@ -95,4 +95,8 @@ fn get_headers_from_file(headers: &StringRecord) -> Vec<String> {
     }
 
     temp_header
+}
+
+fn build_menu_items_from_header(headers: Vec<String>) {
+
 }
