@@ -20,12 +20,10 @@ pub fn main(c: &Context) {
     let mut reader_dest: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(dest_file);
     let mut writer_output: Writer<File> = csv::Writer::from_writer(output_file);
 
-    // Read dest header to vec
-    let mut dest_headers: Vec<String> = Vec::new();
-    let headers = reader_dest.headers().unwrap();
-    for entry in headers {
-        dest_headers.push(entry.to_string());
-    }
+    // Read headers to vectors
+    let dest_headers: Vec<String> = get_headers_from_file(reader_dest.headers().unwrap());
+    let source_headers: Vec<String> = get_headers_from_file(reader_source.headers().unwrap());
+
 
     let term = Term::stdout();
     term.set_title("CSV mapper");
@@ -90,6 +88,11 @@ fn map_view(term: &Term, theme: &ColorfulTheme) {
     }
 }
 
-fn get_headers_from_file(reader: Reader<File>) -> Vec<String> {
+fn get_headers_from_file(headers: &StringRecord) -> Vec<String> {
+    let mut temp_header: Vec<String> = Vec::new();
+    for entry in headers {
+        temp_header.push(entry.to_string());
+    }
 
+    temp_header
 }
