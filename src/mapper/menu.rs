@@ -111,7 +111,7 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_dest: &Vec<String>, heade
     }
 }
 
-fn item_selecter(term: &Term, theme: &ColorfulTheme, header_source: &Vec<String>) -> Option<usize> {
+fn item_selector(term: &Term, theme: &ColorfulTheme, header_source: &Vec<String>) -> Option<usize> {
     loop {
         term.clear_screen();
 
