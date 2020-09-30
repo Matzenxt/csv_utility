@@ -83,7 +83,7 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_dest: &Vec<String>, heade
                 break
             },
             _ => {
-                match item_selecter(&term, &theme, header_source) {
+                match item_selector(&term, &theme, header_source) {
                     Some(pos) => {
                         match pos {
                             1 => {
