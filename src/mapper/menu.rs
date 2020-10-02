@@ -73,7 +73,7 @@ pub fn main(c: &Context) {
     }
 }
 
-fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Vec<Map>, header_source: &Vec<String>) {
+fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Vec<Map>, header_source: &[String]) {
     loop {
         term.clear_screen();
 
@@ -118,7 +118,7 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Vec<Map>, 
     }
 }
 
-fn item_selector(term: &Term, theme: &ColorfulTheme, header_source: &Vec<String>, prompt_text: &String) -> usize {
+fn item_selector(term: &Term, theme: &ColorfulTheme, header_source: &[String], prompt_text: &str) -> usize {
     term.clear_screen();
 
     let next_menu = Select::with_theme(theme)
@@ -142,7 +142,7 @@ fn get_headers_from_file(headers: &StringRecord) -> Vec<String> {
     temp_header
 }
 
-fn save_mapped_to_file(mut source: Reader<File>, mut dest: Reader<File>, mut output: Writer<File>, header_map: &Vec<Map>) {
+fn save_mapped_to_file(mut source: Reader<File>, mut dest: Reader<File>, mut output: Writer<File>, header_map: &[Map]) {
     // Write header to output file
     output.write_record(dest.headers().unwrap());
 
