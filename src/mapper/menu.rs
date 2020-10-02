@@ -6,6 +6,8 @@ use std::fs::File;
 use crate::util::{get_source_file, create_output_file};
 use csv::{Reader, Writer, ReaderBuilder, StringRecord};
 use std::{thread, time};
+use crate::mapper::data::{HeaderMap, HeaderEntry, Map};
+use std::borrow::{BorrowMut, Borrow};
 
 pub fn main(c: &Context) {
     if c.args.len() != 3 {
@@ -25,6 +27,15 @@ pub fn main(c: &Context) {
     let dest_headers: Vec<String> = get_headers_from_file(reader_dest.headers().unwrap());
     let source_headers: Vec<String> = get_headers_from_file(reader_source.headers().unwrap());
 
+    let mut header_map: HeaderMap = HeaderMap::new(dest_headers.clone());
+
+
+    let mut temp: Vec<Map> = vec![];
+
+    let mut pos_counter: usize = 0;
+    for dest_header in dest_headers.clone() {
+        temp.push(Map::new(pos_counter, dest_header));
+    }
 
     let term = Term::stdout();
     term.set_title("CSV mapper");
@@ -41,19 +52,36 @@ pub fn main(c: &Context) {
             .with_prompt("Choose action")
             .default(0)
             .item("Map")
+            .item("Current mapping")
             .item("Cancel")
             .item("Save and exit")
             .interact().unwrap();
 
         match next_menu {
             0 => {
-                map_view(&term, &theme, &dest_headers, &source_headers);
+                map_view(&term, &theme, temp.borrow_mut(), &dest_headers, &source_headers);
             },
             1 => {
                 term.clear_screen();
-                std::process::exit(0);
+
+                for entry in &temp {
+                    match &entry.source_entry {
+                        None => {
+                            println!("Source is empty - Dest: {}", entry.dest_entry.name);
+                        }
+                        Some(sou) => {
+                            println!("Source: {} - Dest: {}", sou.name, entry.dest_entry.name);
+                        }
+                    };
+                }
+
+                thread::sleep(time::Duration::from_millis(8000));
             },
             2 => {
+                term.clear_screen();
+                std::process::exit(0);
+            },
+            3 => {
                 // TODO: Impl save functionality
                 term.clear_screen();
                 std::process::exit(0);
@@ -66,7 +94,7 @@ pub fn main(c: &Context) {
     }
 }
 
-fn map_view(term: &Term, theme: &ColorfulTheme, header_dest: &Vec<String>, header_source: &Vec<String>) {
+fn map_view(term: &Term, theme: &ColorfulTheme, temp: &mut Vec<Map>, header_dest: &Vec<String>, header_source: &Vec<String>) {
     loop {
         term.clear_screen();
 
@@ -85,18 +113,23 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_dest: &Vec<String>, heade
             _ => {
                 match item_selector(&term, &theme, header_source) {
                     Some(pos) => {
+                        // -1 because back entry in item list
+                        let position_dest = next_menu - 1;
+
                         match pos {
                             1 => {
                                 println!("Set to empty");
+                                temp[position_dest].set_source_entry(None);
                             },
                             _ => {
                                 // -2 because empty and back entry in item list
                                 let position_source = pos - 2;
 
-                                // -1 because back entry in item list
-                                let position_dest = next_menu - 1;
-
                                 println!("Map source header {} to dest header {}", header_source[position_source], header_dest[position_dest]);
+                                temp[position_dest].set_source_entry(Option::from(HeaderEntry {
+                                    name: header_source[position_source].clone(),
+                                    position: position_source
+                                }))
                             }
                         }
                     },
@@ -105,7 +138,7 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_dest: &Vec<String>, heade
                     }
                 };
 
-                thread::sleep(time::Duration::from_millis(8000));
+                thread::sleep(time::Duration::from_millis(2000));
             }
         }
     }

@@ -3,17 +3,17 @@
 use std::borrow::BorrowMut;
 
 pub struct HeaderMap {
-    maps: Vec<Map>,
+    pub maps: Vec<Map>,
 }
 
 pub struct Map {
-    dest_entry: HeaderEntry,
-    source_entry: Option<HeaderEntry>,
+    pub dest_entry: HeaderEntry,
+    pub source_entry: Option<HeaderEntry>,
 }
 
 pub struct HeaderEntry {
-    name: String,
-    position: usize,
+    pub name: String,
+    pub position: usize,
 }
 
 impl HeaderMap {
@@ -40,5 +40,9 @@ impl Map {
             },
             source_entry: None
         }
+    }
+
+    pub fn set_source_entry(&mut self, new_source_entry: Option<HeaderEntry>) {
+        self.source_entry = new_source_entry;
     }
 }
