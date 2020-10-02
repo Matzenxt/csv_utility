@@ -48,7 +48,6 @@ pub fn main(c: &Context) {
             .with_prompt("Choose action")
             .default(0)
             .item("Map")
-            .item("Current mapping")
             .item("Cancel")
             .item("Save and exit")
             .interact().unwrap();
@@ -59,25 +58,9 @@ pub fn main(c: &Context) {
             },
             1 => {
                 term.clear_screen();
-
-                for entry in &header_mappings {
-                    match &entry.source_entry {
-                        None => {
-                            println!("Source is empty - Dest: {}", entry.dest_entry.name);
-                        }
-                        Some(sou) => {
-                            println!("Source: {} - Dest: {}", sou.name, entry.dest_entry.name);
-                        }
-                    };
-                }
-
-                thread::sleep(time::Duration::from_millis(8000));
-            },
-            2 => {
-                term.clear_screen();
                 std::process::exit(0);
             },
-            3 => {
+            2 => {
                 // TODO: Impl save functionality
                 term.clear_screen();
                 std::process::exit(0);
@@ -98,7 +81,7 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Vec<Map>, 
             .with_prompt("Map headers")
             .default(0)
             .item("Back")
-            .items(header_dest)
+            .items(header_mappings)
             .interact()
             .unwrap();
 
