@@ -29,7 +29,7 @@ pub fn main(c: &Context) {
 
     // Build header map
     let mut header_mappings: Vec<Map> = Vec::new();
-    for (index, dest_header) in dest_headers.clone().iter().enumerate() {
+    for (index, dest_header) in dest_headers.iter().enumerate() {
         header_mappings.push(Map::new(index, dest_header.to_string()));
     }
 
@@ -119,20 +119,18 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Vec<Map>, 
 }
 
 fn item_selector(term: &Term, theme: &ColorfulTheme, header_source: &Vec<String>, prompt_text: &String) -> usize {
-    loop {
-        term.clear_screen();
+    term.clear_screen();
 
-        let next_menu = Select::with_theme(theme)
-            .with_prompt(format!("Map to {}", prompt_text))
-            .default(0)
-            .item("Back")
-            .item("Empty")
-            .items(header_source)
-            .interact()
-            .unwrap();
+    let next_menu = Select::with_theme(theme)
+        .with_prompt(format!("Map to {}", prompt_text))
+        .default(0)
+        .item("Back")
+        .item("Empty")
+        .items(header_source)
+        .interact()
+        .unwrap();
 
-        return next_menu;
-    }
+    return next_menu;
 }
 
 fn get_headers_from_file(headers: &StringRecord) -> Vec<String> {
