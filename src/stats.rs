@@ -1,8 +1,8 @@
 use seahorse::Context;
 use std::fs::File;
-use crate::util::{create_output_file, get_source_file};
+use crate::util::{get_source_file};
 use csv::{Reader, ReaderBuilder, StringRecord};
-use crate::rm_empty_rows_command;
+
 
 pub fn show_stats(c: &Context) {
     if c.args.len() != 1 {

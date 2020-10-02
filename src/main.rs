@@ -3,7 +3,7 @@ mod stats;
 mod util;
 mod mapper;
 
-use seahorse::{App, Command, Context};
+use seahorse::{App, Command};
 use std::env;
 
 fn main() {

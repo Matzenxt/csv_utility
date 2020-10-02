@@ -1,13 +1,13 @@
 use seahorse::Context;
 use console::{Term, Style};
-use dialoguer::theme::{ColorfulTheme, Theme};
+use dialoguer::theme::{ColorfulTheme};
 use dialoguer::Select;
 use std::fs::File;
 use crate::util::{get_source_file, create_output_file};
 use csv::{Reader, Writer, ReaderBuilder, StringRecord};
-use std::{thread, time};
+
 use crate::mapper::data::{HeaderEntry, Map};
-use std::borrow::{BorrowMut, Borrow};
+use std::borrow::{BorrowMut};
 
 pub fn main(c: &Context) {
     if c.args.len() != 3 {

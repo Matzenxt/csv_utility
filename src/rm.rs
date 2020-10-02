@@ -1,8 +1,8 @@
 use seahorse::Context;
 use std::fs::File;
-use csv::{ReaderBuilder, Error, Writer, Reader, StringRecord};
-use std::path::Path;
-use std::num::ParseIntError;
+use csv::{ReaderBuilder, Writer, Reader, StringRecord};
+
+
 use crate::util::{get_source_file, create_output_file};
 
 pub fn remove_empty_rows(c: &Context) {
