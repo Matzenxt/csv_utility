@@ -27,11 +27,10 @@ pub fn main(c: &Context) {
     let dest_headers: Vec<String> = get_headers_from_file(reader_dest.headers().unwrap());
     let source_headers: Vec<String> = get_headers_from_file(reader_source.headers().unwrap());
 
-    //
-    let mut header_mappings: Vec<Map> = vec![];
-    let mut pos_counter: usize = 0;
-    for dest_header in dest_headers.clone() {
-        header_mappings.push(Map::new(pos_counter, dest_header));
+    // Build header map
+    let mut header_mappings: Vec<Map> = Vec::new();
+    for (index, dest_header) in dest_headers.clone().iter().enumerate() {
+        header_mappings.push(Map::new(index, dest_header.to_string()));
     }
 
     let term = Term::stdout();
