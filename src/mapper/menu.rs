@@ -61,8 +61,8 @@ pub fn main(c: &Context) {
                 std::process::exit(0);
             },
             2 => {
-                // TODO: Impl save functionality
                 term.clear_screen();
+                save_mapped_to_file(reader_source, reader_dest, writer_output, &header_mappings);
                 std::process::exit(0);
             },
             _ => {
@@ -141,4 +141,32 @@ fn get_headers_from_file(headers: &StringRecord) -> Vec<String> {
     }
 
     temp_header
+}
+
+fn save_mapped_to_file(mut source: Reader<File>, mut dest: Reader<File>, mut output: Writer<File>, header_map: &Vec<Map>) {
+    // Write header to output file
+    output.write_record(dest.headers().unwrap());
+
+    // Write entries
+    for source_record in source.records() {
+        let record: StringRecord = source_record.unwrap();
+
+        let mut new_record: StringRecord = StringRecord::new();
+
+        // Build new mapped record
+        for entry in header_map {
+            match &entry.source_entry {
+                None => {
+                    new_record.push_field("");
+                }
+                Some(dest) => {
+                    new_record.push_field(&record[dest.position]);
+                }
+            }
+        }
+
+        output.write_record(&new_record);
+    }
+
+    output.flush();
 }
