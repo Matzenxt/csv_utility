@@ -54,7 +54,7 @@ pub fn main(c: &Context) {
 
         match next_menu {
             0 => {
-                map_view(&term, &theme, header_mappings.borrow_mut(), &dest_headers, &source_headers);
+                map_view(&term, &theme, header_mappings.borrow_mut(), &source_headers);
             },
             1 => {
                 term.clear_screen();
@@ -73,7 +73,7 @@ pub fn main(c: &Context) {
     }
 }
 
-fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Vec<Map>, header_dest: &Vec<String>, header_source: &Vec<String>) {
+fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Vec<Map>, header_source: &Vec<String>) {
     loop {
         term.clear_screen();
 
