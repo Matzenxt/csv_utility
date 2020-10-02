@@ -77,6 +77,8 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Vec<Map>, 
     loop {
         term.clear_screen();
 
+        // TODO: Set default pos of course to first empty entry?
+
         let next_menu = Select::with_theme(theme)
             .with_prompt("Mapping")
             .default(0)
