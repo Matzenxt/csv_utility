@@ -21,7 +21,7 @@ pub fn main(c: &Context) {
 
     let mut reader_source: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(source_file);
     let mut reader_dest: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(dest_file);
-    let mut writer_output: Writer<File> = csv::Writer::from_writer(output_file);
+    let writer_output: Writer<File> = csv::Writer::from_writer(output_file);
 
     // Read headers to vectors
     let dest_headers: Vec<String> = get_headers_from_file(reader_dest.headers().unwrap());
@@ -121,16 +121,14 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Vec<Map>, 
 fn item_selector(term: &Term, theme: &ColorfulTheme, header_source: &[String], prompt_text: &str) -> usize {
     term.clear_screen();
 
-    let next_menu = Select::with_theme(theme)
+    Select::with_theme(theme)
         .with_prompt(format!("Map to {}", prompt_text))
         .default(0)
         .item("Back")
         .item("Empty")
         .items(header_source)
         .interact()
-        .unwrap();
-
-    return next_menu;
+        .unwrap()
 }
 
 fn get_headers_from_file(headers: &StringRecord) -> Vec<String> {
