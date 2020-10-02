@@ -78,7 +78,7 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Vec<Map>, 
         term.clear_screen();
 
         let next_menu = Select::with_theme(theme)
-            .with_prompt("Map headers")
+            .with_prompt("Mapping")
             .default(0)
             .item("Back")
             .items(header_mappings)
@@ -93,7 +93,7 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Vec<Map>, 
                 // -1 because back entry in item list
                 let position_dest = next_menu - 1;
 
-                match item_selector(&term, &theme, header_source) {
+                match item_selector(&term, &theme, header_source, &header_mappings[next_menu].dest_entry.name) {
                     0 => {
                         // Do nothing
                     },
@@ -119,12 +119,12 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Vec<Map>, 
     }
 }
 
-fn item_selector(term: &Term, theme: &ColorfulTheme, header_source: &Vec<String>) -> usize {
+fn item_selector(term: &Term, theme: &ColorfulTheme, header_source: &Vec<String>, prompt_text: &String) -> usize {
     loop {
         term.clear_screen();
 
         let next_menu = Select::with_theme(theme)
-            .with_prompt("Map headers")
+            .with_prompt(format!("Map to {}", prompt_text))
             .default(0)
             .item("Back")
             .item("Empty")
