@@ -98,22 +98,18 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Vec<Map>, 
                         // Do nothing
                     },
                     1 => {
-                        println!("Set to empty");
                         header_mappings[position_dest].set_source_entry(None);
                     },
                     pos_source => {
                         // -2 because empty and back entry in item list
                         let position_source = pos_source - 2;
 
-                        println!("Map source header {} to dest header {}", header_source[position_source], header_dest[position_dest]);
                         header_mappings[position_dest].set_source_entry(Option::from(HeaderEntry {
                             name: header_source[position_source].clone(),
                             position: position_source
                         }))
                     }
                 };
-
-                thread::sleep(time::Duration::from_millis(2000));
             }
         }
     }
