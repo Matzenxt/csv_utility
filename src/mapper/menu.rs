@@ -95,7 +95,7 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Vec<Map>, 
                 // -1 because back entry in item list
                 let position_dest = next_menu - 1;
 
-                match item_selector(&term, &theme, header_source, &header_mappings[next_menu].dest_entry.name) {
+                match item_selector(&term, &theme, header_source, &header_mappings[position_dest].dest_entry.name) {
                     0 => {
                         // Do nothing
                     },
