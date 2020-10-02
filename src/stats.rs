@@ -26,17 +26,17 @@ pub fn show_stats(c: &Context) {
 
         for i in 0..record.len() {
             if !record[i].is_empty() {
-                entity_counter = entity_counter + 1;
+                entity_counter += 1;
             }
         }
 
         if entity_counter == 0 {
-            empty_row_counter = empty_row_counter + 1;
+            empty_row_counter += 1;
         } else if entity_counter == columns_count {
-            full_row_counter = full_row_counter + 1;
+            full_row_counter += 1;
         }
 
-        line_counter = line_counter + 1;
+        line_counter += 1;
     }
 
     println!("Stats for {}", c.args.get(0).unwrap());

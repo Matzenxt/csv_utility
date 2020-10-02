@@ -28,15 +28,15 @@ pub fn remove_empty_rows(c: &Context) {
 
         for i in 0..record.len() {
             if !record[i].is_empty() {
-                entity_counter = entity_counter + 1;
+                entity_counter += 1;
             }
         }
 
         if entity_counter == 0 {
             writer.write_record(&record);
-            added_row_counter = added_row_counter + 1;
+            added_row_counter += 1;
         } else {
-            removed_row_counter = removed_row_counter + 1;
+            removed_row_counter += 1;
         }
     }
 
@@ -77,15 +77,15 @@ pub fn remove_rows_with_threshold(c: &Context) {
 
         for i in 0..record.len() {
             if !record[i].is_empty() {
-                entity_counter = entity_counter + 1;
+                entity_counter += 1;
             }
         }
 
         if entity_counter > threshold {
             writer.write_record(&record);
-            added_row_counter = added_row_counter + 1;
+            added_row_counter += 1;
         } else {
-            removed_row_counter = removed_row_counter + 1;
+            removed_row_counter += 1;
         }
     }
 
