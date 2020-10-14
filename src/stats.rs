@@ -1,16 +1,11 @@
 use seahorse::Context;
 use std::fs::File;
-use crate::util::{get_source_file};
+use crate::util::{get_file};
 use csv::{Reader, ReaderBuilder, StringRecord};
 
 
 pub fn show_stats(c: &Context) {
-    if c.args.len() != 1 {
-        eprintln!("Please check your arguments");
-        std::process::exit(0);
-    }
-
-    let source_file: File = get_source_file(c, 0);
+    let source_file: File = get_file(c, "source");
 
     let mut reader: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(source_file);
 
@@ -39,7 +34,7 @@ pub fn show_stats(c: &Context) {
         line_counter += 1;
     }
 
-    println!("Stats for {}", c.args.get(0).unwrap());
+    println!("Stats for {}", c.string_flag("source").unwrap());
     println!("  - {} columns", reader.headers().unwrap().len());
     println!("  - {} lines total", line_counter);
     println!("  - {} full lines", full_row_counter);

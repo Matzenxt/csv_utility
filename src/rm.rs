@@ -1,19 +1,14 @@
 use seahorse::Context;
 use std::fs::File;
 use csv::{ReaderBuilder, Writer, Reader, StringRecord};
+use seahorse::error::FlagError;
 
-
-use crate::util::{get_source_file, create_output_file};
+use crate::util::{get_file, create_output_file, get_threshold};
 
 pub fn remove_empty_rows(c: &Context) {
-    if c.args.len() != 2 {
-        eprintln!("Please check your arguments");
-        std::process::exit(0);
-    }
+    let source_file: File = get_file(c, "source");
 
-    let source_file: File = get_source_file(c, 0);
-
-    let output_file: File = create_output_file(c, 1);
+    let output_file: File = create_output_file(c);
 
     let mut writer: Writer<File> = csv::Writer::from_writer(output_file);
     let mut reader: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(source_file);
@@ -45,24 +40,11 @@ pub fn remove_empty_rows(c: &Context) {
 }
 
 pub fn remove_rows_with_threshold(c: &Context) {
-    if c.args.len() != 3 {
-        eprintln!("Please check your arguments");
-        std::process::exit(0);
-    }
+    let source_file: File = get_file(c, "source");
 
-    let source_file: File = get_source_file(c, 0);
+    let output_file: File = create_output_file(c);
 
-    let output_file: File = create_output_file(c, 1);
-
-    let threshold: usize = match c.args.get(2).unwrap().parse::<usize>() {
-        Ok(threshold) => {
-            threshold
-        }
-        Err(_) => {
-            eprintln!("Could not parse threshold '{}'!", c.args.get(0).unwrap());
-            std::process::exit(0);
-        }
-    };
+    let threshold: usize = get_threshold(c);
 
     let mut writer: Writer<File> = csv::Writer::from_writer(output_file);
     let mut reader: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(source_file);

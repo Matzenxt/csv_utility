@@ -3,21 +3,16 @@ use console::{Term, Style};
 use dialoguer::theme::{ColorfulTheme};
 use dialoguer::Select;
 use std::fs::File;
-use crate::util::{get_source_file, create_output_file};
+use crate::util::{get_file, create_output_file};
 use csv::{Reader, Writer, ReaderBuilder, StringRecord};
 
 use crate::mapper::data::{HeaderEntry, Map};
 use std::borrow::{BorrowMut};
 
 pub fn main(c: &Context) {
-    if c.args.len() != 3 {
-        eprintln!("Please check your arguments");
-        std::process::exit(0);
-    }
-
-    let source_file: File = get_source_file(c, 0);
-    let dest_file: File = get_source_file(c, 1);
-    let output_file: File = create_output_file(c, 2);
+    let source_file: File = get_file(c, "source");
+    let dest_file: File = get_file(c, "destination");
+    let output_file: File = create_output_file(c);
 
     let mut reader_source: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(source_file);
     let mut reader_dest: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(dest_file);
