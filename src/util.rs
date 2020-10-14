@@ -2,7 +2,6 @@ use std::fs::File;
 use std::path::Path;
 use seahorse::Context;
 use seahorse::error::FlagError;
-use std::num::ParseIntError;
 
 pub fn get_file(c: &Context, string_flag: &str) -> File {
     match c.string_flag(string_flag) {

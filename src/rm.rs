@@ -1,13 +1,11 @@
 use seahorse::Context;
 use std::fs::File;
 use csv::{ReaderBuilder, Writer, Reader, StringRecord};
-use seahorse::error::FlagError;
 
 use crate::util::{get_file, create_output_file, get_threshold};
 
 pub fn remove_empty_rows(c: &Context) {
     let source_file: File = get_file(c, "source");
-
     let output_file: File = create_output_file(c);
 
     let mut writer: Writer<File> = csv::Writer::from_writer(output_file);
