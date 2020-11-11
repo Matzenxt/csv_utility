@@ -2,6 +2,7 @@ mod rm;
 mod stats;
 mod util;
 mod mapper;
+mod append;
 
 use seahorse::{App, Command, Flag, FlagType};
 use std::env;
@@ -16,6 +17,7 @@ fn main() {
         .command(map_command())
         .command(rm_empty_rows_command())
         .command(rm_rows_with_threshold_command())
+        .command(append_command())
         .command(stats_show_command());
 
     app.run(args);
@@ -53,7 +55,16 @@ fn rm_rows_with_threshold_command() -> Command {
         )
 }
 
-// TODO: New feature append
+fn append_command() -> Command {
+    Command::new("append")
+        .alias("a")
+        .description("Appends two csv files with the same header line")
+        .action(append::append)
+        .flag(source_file_flag())
+        .flag(source_file_flag())
+        .flag(destination_file_flag())
+        .flag(output_file_flag())
+}
 
 fn stats_show_command() -> Command {
     Command::new("stats")
