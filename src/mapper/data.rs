@@ -1,13 +1,40 @@
 use std::fmt;
+use serde::{Deserialize, Serialize};
+use serde_json::Result;
 
+
+
+
+
+#[derive(Serialize, Deserialize)]
+pub struct Mappings {
+    pub mappings: Vec<Map>
+}
+
+#[derive(Serialize, Deserialize)]
 pub struct Map {
     pub dest_entry: HeaderEntry,
     pub source_entry: Option<HeaderEntry>,
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct HeaderEntry {
     pub name: String,
     pub position: usize,
+}
+
+impl Mappings {
+    pub fn new(dest_headers: Vec<String>) -> Mappings {
+        let mut header_mappings: Vec<Map> = Vec::new();
+
+        for (index, dest_header) in dest_headers.iter().enumerate() {
+            header_mappings.push(Map::new(index, dest_header.to_string()));
+        };
+
+        Mappings {
+            mappings: header_mappings
+        }
+    }
 }
 
 impl Map {
