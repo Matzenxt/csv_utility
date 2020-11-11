@@ -60,9 +60,7 @@ pub fn main(c: &Context) {
                 std::process::exit(0);
             },
             3 => {
-                println!("Save mapping");
-
-                let serialized = serde_json::to_string_pretty(&header_mappings).unwrap();
+                let serialized = serde_json::to_writer_pretty(&File::create("mappings.json").unwrap(), &header_mappings).unwrap();
             },
             _ => {
                 term.clear_screen();
