@@ -9,6 +9,7 @@ use csv::{Reader, Writer, ReaderBuilder, StringRecord};
 use crate::mapper::data::{HeaderEntry, Map};
 use std::borrow::{BorrowMut};
 
+// TODO: Feature: Save mappings to file so it can be reused
 pub fn main(c: &Context) {
     let source_file: File = get_file(c, "source");
     let dest_file: File = get_file(c, "destination");

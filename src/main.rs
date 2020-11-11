@@ -53,6 +53,8 @@ fn rm_rows_with_threshold_command() -> Command {
         )
 }
 
+// TODO: New feature append
+
 fn stats_show_command() -> Command {
     Command::new("stats")
         .alias("s")
