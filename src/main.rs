@@ -61,7 +61,6 @@ fn append_command() -> Command {
         .description("Appends two csv files with the same header line")
         .action(append::append)
         .flag(source_file_flag())
-        .flag(source_file_flag())
         .flag(destination_file_flag())
         .flag(output_file_flag())
 }

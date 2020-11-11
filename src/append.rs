@@ -6,7 +6,7 @@ use crate::util::{get_file, create_output_file};
 
 pub fn append(c: &Context) {
     let source_file_1: File = get_file(c, "source");
-    let source_file_2: File = get_file(c, "source");
+    let source_file_2: File = get_file(c, "destination");
     let output_file: File = create_output_file(c);
 
     let mut reader_1: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(source_file_1);
