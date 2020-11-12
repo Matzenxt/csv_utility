@@ -71,3 +71,25 @@ pub fn get_threshold(c: &Context) -> usize {
         },
     }
 }
+
+pub fn get_mappings_file(c: &Context) -> File {
+    match c.string_flag("mappings") {
+        Ok(path) => {
+            match Path::new(&path).exists() {
+                true => {
+                    File::open(path).unwrap()
+                }
+                false => {
+                    File::create(path).unwrap()
+                }
+            }
+        }
+        Err(e) => match e {
+            FlagError::Undefined => panic!("undefined operator..."),
+            FlagError::ArgumentError => panic!("argument error..."),
+            FlagError::NotFound => panic!("not found flag..."),
+            FlagError::ValueTypeError => panic!("value type mismatch..."),
+            FlagError::TypeError => panic!("flag type mismatch..."),
+        },
+    }
+}

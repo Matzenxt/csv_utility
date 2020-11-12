@@ -3,28 +3,46 @@ use console::{Term, Style};
 use dialoguer::theme::{ColorfulTheme};
 use dialoguer::Select;
 use std::fs::File;
-use crate::util::{get_file, create_output_file};
+use crate::util::{get_file, create_output_file, get_mappings_file};
 use csv::{Reader, Writer, ReaderBuilder, StringRecord};
 
 use crate::mapper::data::{HeaderEntry, Map, Mappings};
 use std::borrow::{BorrowMut, Borrow};
+use std::io::BufReader;
+use serde_json::Error;
 
-// TODO: Feature: Save mappings to file so it can be reused
 pub fn main(c: &Context) {
     let source_file: File = get_file(c, "source");
     let dest_file: File = get_file(c, "destination");
     let output_file: File = create_output_file(c);
+    let mappings_file: File = get_mappings_file(c);
 
     let mut reader_source: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(source_file);
     let mut reader_dest: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(dest_file);
     let writer_output: Writer<File> = csv::Writer::from_writer(output_file);
+    let mut reader_mappings:BufReader<File> = BufReader::new(mappings_file);
 
     // Read headers to vectors
     let dest_headers: Vec<String> = get_headers_from_file(reader_dest.headers().unwrap());
     let source_headers: Vec<String> = get_headers_from_file(reader_source.headers().unwrap());
 
     // Build header map
-    let mut header_mappings = Mappings::new(dest_headers);
+    let mut header_mappings: Mappings;
+
+    let mut temp: Result<Mappings, serde_json::Error> = serde_json::from_reader(reader_mappings);
+
+    match temp {
+        Ok(mappings) => {
+            header_mappings = mappings;
+
+            // TODO: Check if headers of mappings machts csv files
+
+        }
+        Err(_) => {
+            header_mappings = Mappings::new(dest_headers);
+        }
+    }
+
 
     let term = Term::stdout();
     term.set_title("CSV mapper");
@@ -75,7 +93,6 @@ fn map_view(term: &Term, theme: &ColorfulTheme, header_mappings: &mut Mappings, 
         term.clear_screen();
 
         // TODO: Set default pos of course to first empty entry?
-        // TODO: Add feature to save and load mapping?
 
         let next_menu = Select::with_theme(theme)
             .with_prompt("Mapping")

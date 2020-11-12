@@ -31,6 +31,7 @@ fn map_command() -> Command {
         .flag(source_file_flag())
         .flag(destination_file_flag())
         .flag(output_file_flag())
+        .flag(mappings_file_flag())
 }
 
 fn rm_empty_rows_command() -> Command {
@@ -89,4 +90,10 @@ fn destination_file_flag() -> Flag {
     Flag::new("destination", FlagType::String)
         .description("cli destination file path --destination(-d)")
         .alias("d")
+}
+
+fn mappings_file_flag() -> Flag {
+    Flag::new("mappings", FlagType::String)
+        .description("cli mappings file path --mappings(-m)")
+        .alias("a")
 }
