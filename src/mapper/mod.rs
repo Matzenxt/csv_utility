@@ -1,2 +1,2 @@
 pub mod menu;
-mod data;
+pub mod data;

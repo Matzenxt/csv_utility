@@ -15,31 +15,36 @@ pub fn main(c: &Context) {
     let source_file: File = get_file(c, "source");
     let dest_file: File = get_file(c, "destination");
     let output_file: File = create_output_file(c);
-    let mappings_file: File = get_mappings_file(c);
+    let mappings_file: Option<(Option<Mappings>, String)> = get_mappings_file(c);
 
     let mut reader_source: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(source_file);
     let mut reader_dest: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(dest_file);
     let writer_output: Writer<File> = csv::Writer::from_writer(output_file);
-    let mut reader_mappings:BufReader<File> = BufReader::new(mappings_file);
 
     // Read headers to vectors
     let dest_headers: Vec<String> = get_headers_from_file(reader_dest.headers().unwrap());
     let source_headers: Vec<String> = get_headers_from_file(reader_source.headers().unwrap());
 
-    // Build header map
+    // TODO: Check if headers of mappings machts csv files
     let mut header_mappings: Mappings;
+    let mut mappings_path: Option<String>;
 
-    let mut temp: Result<Mappings, serde_json::Error> = serde_json::from_reader(reader_mappings);
+    match mappings_file {
+        Some(mappings) => {
+            match mappings.0 {
+                Some(mapping) => {
+                    header_mappings = mapping;
+                }
+                None => {
+                    header_mappings = Mappings::new(dest_headers);
+                }
+            }
 
-    match temp {
-        Ok(mappings) => {
-            header_mappings = mappings;
-
-            // TODO: Check if headers of mappings machts csv files
-
+            mappings_path = Some(mappings.1);
         }
-        Err(_) => {
+        None => {
             header_mappings = Mappings::new(dest_headers);
+            mappings_path = None;
         }
     }
 
@@ -78,7 +83,19 @@ pub fn main(c: &Context) {
                 std::process::exit(0);
             },
             3 => {
-                let serialized = serde_json::to_writer_pretty(&File::create("mappings.json").unwrap(), &header_mappings).unwrap();
+                let file_path;
+
+                match &mappings_path {
+                    Some(path) => {
+                        file_path = path.to_owned();
+                    }
+                    None => {
+                        // TODO: Ask for new file name
+                        file_path = "mappings.json".to_string();
+                    }
+                }
+
+                let serialized = serde_json::to_writer_pretty(&File::create(&file_path).unwrap(), &header_mappings).unwrap();
             },
             _ => {
                 term.clear_screen();
