@@ -3,7 +3,6 @@ use std::path::Path;
 use seahorse::Context;
 use seahorse::error::FlagError;
 use std::io::BufReader;
-use crate::mapper::data::Mappings;
 
 pub fn get_file(c: &Context, string_flag: &str) -> File {
     match c.string_flag(string_flag) {
@@ -74,33 +73,21 @@ pub fn get_threshold(c: &Context) -> usize {
     }
 }
 
-pub fn get_mappings_file(c: &Context) -> Option<(Option<Mappings>, String)> {
+pub fn get_mappings_file(c: &Context) -> Option<(Option<File>, String)> {
     match c.string_flag("mappings") {
         Ok(path) => {
-            let mut header_mappings: Option<Mappings>;
+            let mut file: Option<File>;
 
             match Path::new(&path).exists() {
                 true => {
-                    let mapping_file: File = File::open(&path).unwrap();
-                    let mut reader_mappings:BufReader<File> = BufReader::new(mapping_file);
-                    
-                    let mut mappings_res: Result<Mappings, serde_json::Error> = serde_json::from_reader(reader_mappings);
-
-                    match mappings_res {
-                        Ok(mappings) => {
-                            header_mappings = Some(mappings);
-                        }
-                        Err(_) => {
-                            header_mappings = None
-                        }
-                    }
+                    file = Some(File::open(&path).unwrap());
                 }
                 false => {
-                    header_mappings = None
+                    file = None;
                 }
             }
 
-            Some((header_mappings, path))
+            Some((file, path))
         }
         Err(e) => match e {
             FlagError::Undefined => panic!("undefined operator..."),

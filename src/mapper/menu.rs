@@ -15,7 +15,7 @@ pub fn main(c: &Context) {
     let source_file: File = get_file(c, "source");
     let dest_file: File = get_file(c, "destination");
     let output_file: File = create_output_file(c);
-    let mappings_file: Option<(Option<Mappings>, String)> = get_mappings_file(c);
+    let mappings_file: Option<(Option<File>, String)> = get_mappings_file(c);
 
     let mut reader_source: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(source_file);
     let mut reader_dest: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(dest_file);
@@ -29,11 +29,23 @@ pub fn main(c: &Context) {
     let mut header_mappings: Mappings;
     let mut mappings_path: Option<String>;
 
+    // Handle header loading/creating empty header mappings
     match mappings_file {
         Some(mappings) => {
             match mappings.0 {
-                Some(mapping) => {
-                    header_mappings = mapping;
+                Some(mapping_file) => {
+                    let mut reader_mappings:BufReader<File> = BufReader::new(mapping_file);
+
+                    let mut mappings_res: Result<Mappings, serde_json::Error> = serde_json::from_reader(reader_mappings);
+
+                    match mappings_res {
+                        Ok(mappings) => {
+                            header_mappings = mappings;
+                        }
+                        Err(_) => {
+                            header_mappings = Mappings::new(dest_headers);
+                        }
+                    }
                 }
                 None => {
                     header_mappings = Mappings::new(dest_headers);
@@ -47,7 +59,6 @@ pub fn main(c: &Context) {
             mappings_path = None;
         }
     }
-
 
     let term = Term::stdout();
     term.set_title("CSV mapper");
