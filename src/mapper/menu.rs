@@ -6,10 +6,9 @@ use std::fs::File;
 use crate::util::{get_file, create_output_file, get_mappings_file};
 use csv::{Reader, Writer, ReaderBuilder, StringRecord};
 
-use crate::mapper::data::{HeaderEntry, Map, Mappings};
+use crate::mapper::data::{HeaderEntry, Mappings};
 use std::borrow::{BorrowMut, Borrow};
 use std::io::BufReader;
-use serde_json::Error;
 
 pub fn main(c: &Context) {
     let source_file: File = get_file(c, "source");
