@@ -1,7 +1,7 @@
 use seahorse::Context;
 use console::{Term, Style};
 use dialoguer::theme::{ColorfulTheme};
-use dialoguer::Select;
+use dialoguer::{Select, Input};
 use std::fs::File;
 use crate::util::{get_file, create_output_file, get_mappings_file};
 use csv::{Reader, Writer, ReaderBuilder, StringRecord};
@@ -75,9 +75,10 @@ pub fn main(c: &Context) {
             .with_prompt("Choose action")
             .default(0)
             .item("Map")
+            .item("Save mapping file")
+            .item("Save as new mapping file")
             .item("Cancel")
             .item("Save and exit")
-            .item("Save mapping")
             .interact().unwrap();
 
         match next_menu {
@@ -85,15 +86,6 @@ pub fn main(c: &Context) {
                 map_view(&term, &theme, header_mappings.borrow_mut(), &source_headers);
             },
             1 => {
-                term.clear_screen();
-                std::process::exit(0);
-            },
-            2 => {
-                term.clear_screen();
-                save_mapped_to_file(reader_source, reader_dest, writer_output, &header_mappings);
-                std::process::exit(0);
-            },
-            3 => {
                 let file_path;
 
                 match &mappings_path {
@@ -101,12 +93,27 @@ pub fn main(c: &Context) {
                         file_path = path.to_owned();
                     }
                     None => {
-                        // TODO: Ask for new file name
-                        file_path = "mappings.json".to_string();
+                        file_path = get_new_mappings_file_name(&theme);
+                        mappings_path = Some(file_path.clone());
                     }
                 }
 
                 let serialized = serde_json::to_writer_pretty(&File::create(&file_path).unwrap(), &header_mappings).unwrap();
+            },
+            2 => {
+                let new_file_path = get_new_mappings_file_name(&theme);
+                mappings_path = Some(new_file_path.clone());
+
+                let serialized = serde_json::to_writer_pretty(&File::create(&new_file_path).unwrap(), &header_mappings).unwrap();
+            },
+            3 => {
+                term.clear_screen();
+                std::process::exit(0);
+            },
+            4 => {
+                term.clear_screen();
+                save_mapped_to_file(reader_source, reader_dest, writer_output, &header_mappings);
+                std::process::exit(0);
             },
             _ => {
                 term.clear_screen();
@@ -208,4 +215,12 @@ fn save_mapped_to_file(mut source: Reader<File>, mut dest: Reader<File>, mut out
     }
 
     output.flush();
+}
+
+fn get_new_mappings_file_name(theme: &ColorfulTheme) -> String {
+    Input::with_theme(theme)
+        .with_prompt("New mappings file name")
+        .default(format!("mappings.json"))
+        .interact()
+        .unwrap()
 }
