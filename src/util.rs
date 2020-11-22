@@ -75,7 +75,7 @@ pub fn get_threshold(c: &Context) -> usize {
 pub fn get_mappings_file(c: &Context) -> Option<(Option<File>, String)> {
     match c.string_flag("mappings") {
         Ok(path) => {
-            let mut file: Option<File>;
+            let file: Option<File>;
 
             match Path::new(&path).exists() {
                 true => {

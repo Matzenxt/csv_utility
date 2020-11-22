@@ -33,9 +33,9 @@ pub fn main(c: &Context) {
         Some(mappings) => {
             match mappings.0 {
                 Some(mapping_file) => {
-                    let mut reader_mappings:BufReader<File> = BufReader::new(mapping_file);
+                    let reader_mappings:BufReader<File> = BufReader::new(mapping_file);
 
-                    let mut mappings_res: Result<Mappings, serde_json::Error> = serde_json::from_reader(reader_mappings);
+                    let mappings_res: Result<Mappings, serde_json::Error> = serde_json::from_reader(reader_mappings);
 
                     match mappings_res {
                         Ok(mappings) => {
@@ -97,13 +97,13 @@ pub fn main(c: &Context) {
                     }
                 }
 
-                let serialized = serde_json::to_writer_pretty(&File::create(&file_path).unwrap(), &header_mappings).unwrap();
+                serde_json::to_writer_pretty(&File::create(&file_path).unwrap(), &header_mappings).unwrap();
             },
             2 => {
                 let new_file_path = get_new_mappings_file_name(&theme);
                 mappings_path = Some(new_file_path.clone());
 
-                let serialized = serde_json::to_writer_pretty(&File::create(&new_file_path).unwrap(), &header_mappings).unwrap();
+                serde_json::to_writer_pretty(&File::create(&new_file_path).unwrap(), &header_mappings).unwrap();
             },
             3 => {
                 term.clear_screen();
@@ -219,7 +219,7 @@ fn save_mapped_to_file(mut source: Reader<File>, mut dest: Reader<File>, mut out
 fn get_new_mappings_file_name(theme: &ColorfulTheme) -> String {
     Input::with_theme(theme)
         .with_prompt("New mappings file name")
-        .default(format!("mappings.json"))
+        .default("mappings.json".to_string())
         .interact()
         .unwrap()
 }
