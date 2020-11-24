@@ -42,4 +42,18 @@ Version:
 ```
 
 ### Examples
+In the following examples, the table below is used as the ``source.csv`` file.
+
+|       city       	| size    	| population 	|
+|:----------------:	|:---------:|:-----------:	|
+|   New York City  	|  783,8  	|    8,399   	|
+| Washington, D.C. 	|   177   	|   705.749  	|
+|    California    	| 423.970 	|    39,51   	|
+| Los Angeles      	| 1.290,6 	|  3.979.576 	|
+
+#### Map
+In this example the content of ``source.csv`` gets mapped to the following header from ``dest.csv`` and saved to ``out.csv``.
+
+|       city       	| size    	| population 	|
+|:----------------:	|:---------:|:-----------:	|
 
