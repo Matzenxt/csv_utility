@@ -12,13 +12,18 @@ fn main() {
     let app = App::new(env!("CARGO_PKG_NAME"))
         .author(env!("CARGO_PKG_AUTHORS"))
         .version(env!("CARGO_PKG_VERSION"))
-        .description("cli [args]")
+        .description("csv_utility command [flags]")
         .action(|c| println!("TODO"))
         .command(map_command())
         .command(rm_empty_rows_command())
         .command(rm_rows_with_threshold_command())
         .command(append_command())
-        .command(stats_show_command());
+        .command(stats_show_command())
+        .flag(source_file_flag())
+        .flag(destination_file_flag())
+        .flag(output_file_flag())
+        .flag(mappings_file_flag())
+        .flag(threshold_flag());
 
     app.run(args);
 }
@@ -37,7 +42,7 @@ fn map_command() -> Command {
 fn rm_empty_rows_command() -> Command {
     Command::new("rmer")
         .alias("rer")
-        .description("Removes empty rows from csv file")
+        .description("Removes empty rows from source csv file and saves to output file")
         .action(rm::remove_empty_rows)
         .flag(source_file_flag())
         .flag(output_file_flag())
@@ -46,14 +51,11 @@ fn rm_empty_rows_command() -> Command {
 fn rm_rows_with_threshold_command() -> Command {
     Command::new("rmwt")
         .alias("rrwt")
-        .description("Remove rows with less than 'x' entries")
+        .description("Remove rows with less than --threshold entries from source csv file and saves to output file")
         .action(rm::remove_rows_with_threshold)
         .flag(source_file_flag())
         .flag(output_file_flag())
-        .flag(Flag::new("threshold", FlagType::String)
-            .description("cli threshold --threshold(-t)")
-            .alias("t")
-        )
+        .flag(threshold_flag())
 }
 
 fn append_command() -> Command {
@@ -76,24 +78,30 @@ fn stats_show_command() -> Command {
 
 fn source_file_flag() -> Flag {
     Flag::new("source", FlagType::String)
-        .description("cli source file path --source(-s)")
+        .description("path to source file")
         .alias("s")
 }
 
 fn output_file_flag() -> Flag {
     Flag::new("output", FlagType::String)
-        .description("cli output file path --output(-o)")
+        .description("path to output file")
         .alias("o")
 }
 
 fn destination_file_flag() -> Flag {
     Flag::new("destination", FlagType::String)
-        .description("cli destination file path --destination(-d)")
+        .description("path to destination file")
         .alias("d")
 }
 
 fn mappings_file_flag() -> Flag {
     Flag::new("mappings", FlagType::String)
-        .description("cli mappings file path --mappings(-m)")
-        .alias("a")
+        .description("path to mappings file")
+        .alias("m")
+}
+
+fn threshold_flag() -> Flag {
+    Flag::new("threshold", FlagType::String)
+        .description("threshold, a positiv number")
+        .alias("t")
 }
