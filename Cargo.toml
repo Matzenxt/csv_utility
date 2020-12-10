@@ -7,6 +7,8 @@ license = "MIT"
 license-file = "LICENSE.txt"
 readme = "README.md"
 repository = "https://github.com/Matzenxt/csv_utility"
+keywords = ["csv_utility", "csv", "utility", "cli", "map", "merge", "append"]
+description = "CLI to map csv files and some other utilities."
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
