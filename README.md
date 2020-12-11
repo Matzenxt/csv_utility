@@ -8,7 +8,11 @@
 
 
 ### Installation
-
+Install ``csv_utility`` via cargo with the following command
+```sh
+cargo install csv_utility
+```
+or build it yourself by pulling the repo.
 
 ### Using CSV Utility from the Command Line
 
@@ -54,6 +58,30 @@ In the following examples, the table below is used as the ``source.csv`` file.
 #### Map
 In this example the content of ``source.csv`` gets mapped to the following header from ``dest.csv`` and saved to ``out.csv``.
 
-|       city       	| size    	| population 	|
-|:----------------:	|:---------:|:-----------:	|
+|       stadt     	| einwohner	    | fläche    |
+|:----------------:	|:-----------:  |:---------:|
+
+```sh
+csv_utility map -s source.csv -d dest.csv -o out.csv
+```
+Running the command above opens a user interface with the following options:
+- ``Map``
+  <br> Let you map the columns from the source file to the destination file.
+- ``Save mapping file``
+  <br> Saves the mapping created in ``Map``.
+- ``Save as new mapping file``
+  <br> Saves the mapping created in ``Map`` to a new mapping file.
+- ``Cancel``
+  <br> Cancels the command.
+- ``Save and exit``
+  <br> Saves the columns according to the mapping in the output file and exit afterwards.
+
+The result looks like
+
+|       stadt      	| einwohner 	| fläche   	|
+|:----------------:	|:-----------:	|:---------:|
+|   New York City  	|    8,399   	|  783,8  	|
+| Washington, D.C. 	|   705.749  	|   177   	|
+|    California    	|    39,51   	| 423.970 	|
+| Los Angeles      	|  3.979.576 	| 1.290,6 	|
 
