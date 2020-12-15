@@ -25,7 +25,7 @@ pub fn remove_empty_rows(c: &Context) {
             }
         }
 
-        if entity_counter == 0 {
+        if entity_counter != 0 {
             writer.write_record(&record);
             added_row_counter += 1;
         } else {
