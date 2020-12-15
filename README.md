@@ -9,9 +9,11 @@
 
 ### Installation
 Install ``csv_utility`` via cargo with the following command
+
 ```sh
 cargo install csv_utility
 ```
+
 or build it yourself by pulling the repo.
 
 ### Using CSV Utility from the Command Line
@@ -51,9 +53,13 @@ In the following examples, the table below is used as the ``source.csv`` file.
 |       city       	| size    	| population 	|
 |:----------------:	|:---------:|:-----------:	|
 |   New York City  	|  783,8  	|    8,399   	|
+|                   |           |               |
 | Washington, D.C. 	|   177   	|   705.749  	|
+|        Texas      |           |  29.000.000   |
 |    California    	| 423.970 	|    39,51   	|
+|                   |           |               |
 | Los Angeles      	| 1.290,6 	|  3.979.576 	|
+|  San Francisco    |           |               |
 
 #### Map
 In this example the content of ``source.csv`` gets mapped to the following header from ``dest.csv`` and saved to ``out.csv``.
@@ -64,6 +70,7 @@ In this example the content of ``source.csv`` gets mapped to the following heade
 ```sh
 csv_utility map -s source.csv -d dest.csv -o out.csv
 ```
+
 Running the command above opens a user interface with the following options:
 - ``Map``
   <br> Let you map the columns from the source file to the destination file.
@@ -81,7 +88,45 @@ The result looks like
 |       stadt      	| einwohner 	| fläche   	|
 |:----------------:	|:-----------:	|:---------:|
 |   New York City  	|    8,399   	|  783,8  	|
+|                   |               |           |
 | Washington, D.C. 	|   705.749  	|   177   	|
+|        Texas      |  29.000.000   |           |
 |    California    	|    39,51   	| 423.970 	|
+|                   |               |           |
 | Los Angeles      	|  3.979.576 	| 1.290,6 	|
+|  San Francisco    |               |           |
+|                   |               |           |
+#### rmer
+Running the following command on ``source.csv``
 
+```sh
+csv_utility rmer -s source.csv -o out.csv
+```
+
+Gets us ``out.csv`` with the following content:
+
+|       city       	| size    	| population 	|
+|:----------------:	|:---------:|:-----------:	|
+|   New York City  	|  783,8  	|    8,399   	|
+| Washington, D.C. 	|   177   	|   705.749  	|
+|        Texas      |           |  29.000.000   |
+|    California    	| 423.970 	|    39,51   	|
+| Los Angeles      	| 1.290,6 	|  3.979.576 	|
+|  San Francisco    |           |               |
+
+#### rmwt
+Running the following command on ``source.csv``
+
+```sh
+csv_utility rmwt -s source.csv -o out.csv -t 1
+```
+
+Gets us ``out.csv`` with the following content:
+
+|       city       	| size    	| population 	|
+|:----------------:	|:---------:|:-----------:	|
+|   New York City  	|  783,8  	|    8,399   	|
+| Washington, D.C. 	|   177   	|   705.749  	|
+|        Texas      |           |  29.000.000   |
+|    California    	| 423.970 	|    39,51   	|
+| Los Angeles      	| 1.290,6 	|  3.979.576 	|
