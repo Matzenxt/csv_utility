@@ -169,3 +169,17 @@ csv_utility append -s source.csv -d source.csv -o out.csv
 | Los Angeles      	| 1.290,6 	|  3.979.576 	|
 |  San Francisco    |           |               |
 |                   |           |               |
+
+#### stats
+The Stats command shows some information about the content of the csv file.
+
+```sh
+csv_utility append -s source.csv -d source.csv -o out.csv
+
+Stats for in.csv
+  - 3 columns
+  - 9 lines total
+  - 4 full lines
+  - 2 partly full lines
+  - 3 empty lines
+```
