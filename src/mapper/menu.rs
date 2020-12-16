@@ -1,5 +1,4 @@
 use seahorse::Context;
-use console::{Term, Style};
 use dialoguer::theme::{ColorfulTheme};
 use dialoguer::{Select, Input};
 use std::fs::File;
@@ -9,6 +8,7 @@ use csv::{Reader, Writer, ReaderBuilder, StringRecord};
 use crate::mapper::data::{HeaderEntry, Mappings};
 use std::borrow::{BorrowMut, Borrow};
 use std::io::BufReader;
+use dialoguer::console::{Term, Style};
 
 pub fn main(c: &Context) {
     let source_file: File = get_file(c, "source");
