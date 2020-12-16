@@ -60,6 +60,7 @@ In the following examples, the table below is used as the ``source.csv`` file.
 |                   |           |               |
 | Los Angeles      	| 1.290,6 	|  3.979.576 	|
 |  San Francisco    |           |               |
+|                   |           |               |
 
 #### Map
 In this example the content of ``source.csv`` gets mapped to the following header from ``dest.csv`` and saved to ``out.csv``.
@@ -96,6 +97,7 @@ The result looks like
 | Los Angeles      	|  3.979.576 	| 1.290,6 	|
 |  San Francisco    |               |           |
 |                   |               |           |
+
 #### rmer
 Running the following command on ``source.csv``
 
@@ -130,3 +132,40 @@ Gets us ``out.csv`` with the following content:
 |        Texas      |           |  29.000.000   |
 |    California    	| 423.970 	|    39,51   	|
 | Los Angeles      	| 1.290,6 	|  3.979.576 	|
+
+Using the 2 for ``-t`` the output file would look like this.
+
+|       city       	| size    	| population 	|
+|:----------------:	|:---------:|:-----------:	|
+|   New York City  	|  783,8  	|    8,399   	|
+| Washington, D.C. 	|   177   	|   705.749  	|
+|    California    	| 423.970 	|    39,51   	|
+| Los Angeles      	| 1.290,6 	|  3.979.576 	|
+
+#### append
+With append the ``-d`` file get appended to the ``-s`` file and written to the output file.
+
+```sh
+csv_utility append -s source.csv -d source.csv -o out.csv
+```
+
+|       city       	| size    	| population 	|
+|:----------------:	|:---------:|:-----------:	|
+|   New York City  	|  783,8  	|    8,399   	|
+|                   |           |               |
+| Washington, D.C. 	|   177   	|   705.749  	|
+|        Texas      |           |  29.000.000   |
+|    California    	| 423.970 	|    39,51   	|
+|                   |           |               |
+| Los Angeles      	| 1.290,6 	|  3.979.576 	|
+|  San Francisco    |           |               |
+|                   |           |               |
+|   New York City  	|  783,8  	|    8,399   	|
+|                   |           |               |
+| Washington, D.C. 	|   177   	|   705.749  	|
+|        Texas      |           |  29.000.000   |
+|    California    	| 423.970 	|    39,51   	|
+|                   |           |               |
+| Los Angeles      	| 1.290,6 	|  3.979.576 	|
+|  San Francisco    |           |               |
+|                   |           |               |
