@@ -2,6 +2,7 @@
 
 
 ## About
+[![Crates.io](https://img.shields.io/crates/v/csv_utility.svg)](https://crates.io/crates/csv_utility)
 
 
 ## Usage

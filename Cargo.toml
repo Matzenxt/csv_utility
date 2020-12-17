@@ -1,6 +1,6 @@
 [package]
 name = "csv_utility"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Matthias Lodner <matthias.lodner@uni-ulm.de>"]
 edition = "2018"
 license = "MIT"
