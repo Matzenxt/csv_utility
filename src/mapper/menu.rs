@@ -18,7 +18,7 @@ pub fn main(c: &Context) {
 
     let mut reader_source: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(source_file);
     let mut reader_dest: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(dest_file);
-    let writer_output: Writer<File> = csv::Writer::from_writer(output_file);
+    let writer_output: Writer<File> = csv::WriterBuilder::new().delimiter(b';').from_writer(output_file);
 
     // Read headers to vectors
     let dest_headers: Vec<String> = get_headers_from_file(reader_dest.headers().unwrap());

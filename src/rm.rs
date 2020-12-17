@@ -8,7 +8,7 @@ pub fn remove_empty_rows(c: &Context) {
     let source_file: File = get_file(c, "source");
     let output_file: File = create_output_file(c);
 
-    let mut writer: Writer<File> = csv::Writer::from_writer(output_file);
+    let mut writer: Writer<File> = csv::WriterBuilder::new().delimiter(b';').from_writer(output_file);
     let mut reader: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(source_file);
 
     let mut added_row_counter: usize = 0;
@@ -44,7 +44,7 @@ pub fn remove_rows_with_threshold(c: &Context) {
 
     let threshold: usize = get_threshold(c);
 
-    let mut writer: Writer<File> = csv::Writer::from_writer(output_file);
+    let mut writer: Writer<File> = csv::WriterBuilder::new().delimiter(b';').from_writer(output_file);
     let mut reader: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(source_file);
 
     let mut added_row_counter: usize = 0;

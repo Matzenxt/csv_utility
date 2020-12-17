@@ -11,7 +11,7 @@ pub fn append(c: &Context) {
 
     let mut reader_1: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(source_file_1);
     let mut reader_2: Reader<File> = ReaderBuilder::new().delimiter(b';').from_reader(source_file_2);
-    let mut writer: Writer<File> = csv::Writer::from_writer(output_file);
+    let mut writer: Writer<File> = csv::WriterBuilder::new().delimiter(b';').from_writer(output_file);
 
     let header_1 = reader_1.headers().unwrap();
     let header_2 = reader_2.headers().unwrap();
