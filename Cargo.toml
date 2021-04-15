@@ -14,13 +14,13 @@ description = "CLI to map csv files and some other utilities."
 
 [dependencies]
 # CLI framework
-seahorse = "1.1.1"
+seahorse = "1.1.2"
 
 # CSV
-csv = "1.1.5"
+csv = "1.1.6"
 
 # Option picker / user interface
-dialoguer = "0.7.1"
+dialoguer = "0.8.0"
 
 # To de- / serilise mappings
 serde = { version = "1.0", features = ["derive"] }
